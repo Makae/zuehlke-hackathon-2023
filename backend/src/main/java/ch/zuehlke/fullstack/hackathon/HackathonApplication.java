@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.statemachine.StateMachine;
+import reactor.core.publisher.Mono;
 
 import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.*;
 
@@ -21,17 +23,15 @@ public class HackathonApplication implements CommandLineRunner {
     private StateMachine<GameState, GameEvent> stateMachine;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
+        stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(PLAYER_JOINED).build())).blockLast();
         stateMachine.sendEvent(PLAYER_JOINED);
-        stateMachine.sendEvent(ALL_PLAYERS_JOINED);
 
-//        stateMachine.sendEvent(ATTACK);
-//        stateMachine.sendEvent(ATTACK);
-//        stateMachine.sendEvent(ATTACK);
-//        stateMachine.sendEvent(ATTACK);
+        stateMachine.sendEvent(PLACE_BOAT);
 
-        stateMachine.sendEvent(ALL_BOATS_PLACED);
-
-        stateMachine.sendEvent(ALL_BOATS_DESTROYED);
+        stateMachine.sendEvent(ATTACK);
+        stateMachine.sendEvent(ATTACK);
+        stateMachine.sendEvent(ATTACK);
+        stateMachine.sendEvent(ATTACK);
     }
 }
