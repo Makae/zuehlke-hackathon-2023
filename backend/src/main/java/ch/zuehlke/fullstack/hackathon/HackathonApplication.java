@@ -2,16 +2,17 @@ package ch.zuehlke.fullstack.hackathon;
 
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.statemachine.StateMachine;
 
 @EnableScheduling
 @SpringBootApplication
+@Slf4j
 public class HackathonApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -23,14 +24,26 @@ public class HackathonApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//        stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(PLAYER_JOINED).build())).blockLast();
-//        stateMachine.sendEvent(PLAYER_JOINED);
-//
-//        stateMachine.sendEvent(PLACE_BOAT);
-//
-//        stateMachine.sendEvent(ATTACK);
-//        stateMachine.sendEvent(ATTACK);
-//        stateMachine.sendEvent(ATTACK);
-//        stateMachine.sendEvent(ATTACK);
+        // make instances of state machine (state machine factory?)
+        stateMachine1();
+        stateMachine2();
     }
+
+    private void stateMachine1(StateMachine<GameState, GameEvent> stateMachine) {
+        stateMachine.sendEvent(GameEvent.ALL_PLAYERS_JOINED);
+        stateMachine.sendEvent(GameEvent.ALL_BOATS_PLACED);
+        stateMachine.sendEvent(GameEvent.ATTACK);
+        stateMachine.sendEvent(GameEvent.ATTACK);
+        stateMachine.sendEvent(GameEvent.ALL_BOATS_DESTROYED);
+    }
+
+    private void stateMachine2(StateMachine<GameState, GameEvent> stateMachine) {
+        log.info("in stateMachine2");
+        stateMachine.sendEvent(GameEvent.ALL_PLAYERS_JOINED);
+        stateMachine.sendEvent(GameEvent.ALL_BOATS_PLACED);
+        stateMachine.sendEvent(GameEvent.ATTACK);
+        stateMachine.sendEvent(GameEvent.ATTACK);
+        stateMachine.sendEvent(GameEvent.ALL_BOATS_DESTROYED);
+    }
+
 }
