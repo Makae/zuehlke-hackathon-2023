@@ -56,7 +56,7 @@ public class GameListener implements StateMachineListener<GameState, GameEvent> 
 
     @Override
     public void stateMachineStarted(StateMachine<GameState, GameEvent> stateMachine) {
-        log.info("State machine started" + stateMachine);
+        log.info("State machine started" + stateMachine.getId());
     }
 
     @Override
