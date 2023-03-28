@@ -1,4 +1,4 @@
-package ch.zuehlke.fullstack.hackathon.statemachine;
+package ch.zuehlke.fullstack.hackathon.statemachine.config;
 
 import ch.zuehlke.fullstack.hackathon.model.game.GameEvent;
 import ch.zuehlke.fullstack.hackathon.model.game.state.GameState;
@@ -22,6 +22,7 @@ import java.util.Set;
 
 import static ch.zuehlke.fullstack.hackathon.model.game.GameEvent.*;
 import static ch.zuehlke.fullstack.hackathon.model.game.state.GameState.*;
+import static ch.zuehlke.fullstack.hackathon.statemachine.action.PlayerJoinAction.playerJoinAction;
 
 @Configuration
 @EnableStateMachine

@@ -5,9 +5,9 @@ export interface GamePlayingAction {
 }
 
 export enum AttackStatus {
-  HIT = "hit",
-  MISS = "miss",
-  IGNORED = "ignored"
+  HIT = "HIT",
+  MISS = "MISS",
+  IGNORED = "IGNORED"
 }
 
 export interface Coordinate {
@@ -20,7 +20,6 @@ export interface AttackEvent {
   status: AttackStatus;
   attackingPlayerId: UUID;
   coordinate: Coordinate;
-
 }
 
 export interface PlayerTurnEvent {
@@ -29,4 +28,21 @@ export interface PlayerTurnEvent {
   actions: GamePlayingAction[];
 }
 
-export type PlayingEvent = AttackEvent | PlayerTurnEvent;
+export interface GameStartPlayingEvent {
+  type: "GameStartPlayingEvent";
+  playerTurnOrder: UUID[];
+}
+
+export interface GameEndEvent {
+  type: "GameEndEvent";
+  winnerId: UUID;
+}
+
+export type PlaceBoatEvent = {
+  type: "PlaceBoatEvent";
+  playerId: UUID;
+  coordinate: Coordinate;
+  successful: boolean;
+}
+
+export type PlayingEvent = AttackEvent | PlayerTurnEvent | GameStartPlayingEvent | PlaceBoatEvent | GameEndEvent;

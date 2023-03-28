@@ -9,7 +9,10 @@ import java.util.UUID;
 public record PlaceBoatEvent(
         UUID playerId,
         Coordinate coordinate,
-        boolean successful
+        boolean successful,
+        UUID gameId
 ) {
-
+    public String getType() {
+        return "PlaceBoatEvent";
+    }
 }

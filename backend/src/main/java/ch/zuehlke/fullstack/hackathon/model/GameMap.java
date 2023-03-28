@@ -11,25 +11,25 @@ public record GameMap(
         int height,
         int width) {
 
-  public boolean placeBoat(Boat boat) {
-    if (checkBoatPlacing(boat)) {
-      return boats.add(boat);
-    }
-    return false;
-  }
-
-  private boolean checkBoatPlacing(Boat boat) {
-    var squareOccupied = boats.stream()
-        .map(Boat::getCoordinate)
-        .anyMatch(coordinate -> overlaps(coordinate, boat.getCoordinate()));
-    if (squareOccupied) {
-      return false;
+    public boolean placeBoat(Boat boat) {
+        if (checkBoatPlacing(boat)) {
+            return boats.add(boat);
+        }
+        return false;
     }
 
-    return isInBounds(boat.getCoordinate());
-  }
+    private boolean checkBoatPlacing(Boat boat) {
+        var squareOccupied = boats.stream()
+                .map(Boat::getCoordinate)
+                .anyMatch(coordinate -> overlaps(coordinate, boat.getCoordinate()));
+        if (squareOccupied) {
+            return false;
+        }
 
-  private boolean overlaps(Coordinate current, Coordinate other) {
+        return isInBounds(boat.getCoordinate());
+    }
+
+    private boolean overlaps(Coordinate current, Coordinate other) {
     return current.x() == other.x() && current.y() == other.y();
   }
 
