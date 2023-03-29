@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -28,6 +29,9 @@ public class BestBrain implements Brain {
     @NonNull
     private final GameProperties gameProperties;
 
+    @NonNull
+    private Set previousAttackCoordinates = new HashSet();
+
     @Override
     public GameAction decide(Set<GameAction> possibleActions) {
         return null;
@@ -35,7 +39,8 @@ public class BestBrain implements Brain {
 
     public AttackTurnAction attack() {
         thinkForALongTime();
-        Coordinate coordinate = chooseCoordinate();
+        Coordinate coordinate = chooseAttackCoordinate();
+        previousAttackCoordinates.add(coordinate);
         return AttackTurnAction.builder()
                 .gameId(applicationProperties.getGameId())
                 .playerId(applicationProperties.getPlayerId())
@@ -57,6 +62,14 @@ public class BestBrain implements Brain {
         Coordinate random = chooseCoordinate();
         if (random.equals(failedCoordinate)) {
             return chooseNewBoatCoordinate(coordinates, failedCoordinate);
+        }
+        return random;
+    }
+
+    private Coordinate chooseAttackCoordinate() {
+        Coordinate random = chooseCoordinate();
+        if (previousAttackCoordinates.contains(random)) {
+            return chooseAttackCoordinate();
         }
         return random;
     }
